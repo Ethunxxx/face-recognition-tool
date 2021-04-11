@@ -5,12 +5,17 @@ import './Logo.css';
 
 
 
-const Logo = () => {
+const Logo = () => { 
     return (
-        <div className="center ma4 mt0">
-            <Tilty className="Tilty br2 shadow-2 pa3" style={{ transformStyle: 'preserve-3d', height: '150px', width: '150px' }}>
-                <img src={brain} alt="brain logo" style={{transform: 'translateZ(30px)'}}></img>
-            </Tilty>
+        <div className="mb5">
+            <div className="center">
+                <Tilty className="gradient br2 shadow-2 pa3 mb0" style={{ transformStyle: 'preserve-3d', height: '120px', width: '120px' }}>
+                    <img src={brain} alt="brain logo" style={{transform: 'translateZ(30px)'}}></img>
+                </Tilty>
+            </div>
+            <div>
+                <p className="f3 fw6">Richard's Face Recognition Tool</p>
+            </div>
         </div>
     );
 }

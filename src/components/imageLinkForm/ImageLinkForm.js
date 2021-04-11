@@ -3,16 +3,16 @@ import './imageLinkForm.css';
 
 
 
-const ImageLinkForm = () => {
+const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
     return (
         <div>
-            <p className='f4'>
+            <p className='f5'>
                 {'Detect faces in your pictures. Just paste an image URL below.'}
             </p>
             <div className='center'>
                 <div className='form center pa3 br3 shadow-5'>
-                    <input className="f6 pa2 w-70 center" type="text" />
-                    <button className="w-30 grow f5 link ph3 pv2 dib white bg-green">Detect</  button>
+                    <input className="f6 pa2 w-80 center" type="text" onChange={onInputChange}/>
+                    <button className="w-20 grow f4 link ph1 dib white bg-green" onClick={onButtonSubmit} >Detect</  button>
                 </div>
             </div>
         </div>
