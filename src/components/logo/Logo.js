@@ -14,7 +14,7 @@ const Logo = () => {
                 </Tilty>
             </div>
             <div>
-                <p className="f3 fw6">Richard's Face Recognition Tool</p>
+                <p className="f3 fw6">Richard's AI Face Recognition Tool</p>
             </div>
         </div>
     );

@@ -3,6 +3,7 @@ import Particles from 'react-particles-js'
 import Navigation from './components/navigation/Navigation.js';
 import FaceRecognition from './components/faceRecognition/FaceRecognition.js';
 import SignIn from './components/signIn/SignIn.js';
+import Footer from './components/footer/Footer.js';
 import Register from './components/register/Register.js';
 import Logo from './components/logo/Logo.js';
 import ImageLinkForm from './components/imageLinkForm/ImageLinkForm.js';
@@ -50,7 +51,8 @@ function App() {
   }
 
   const onButtonSubmit = () => {
-    setImageUrl(userInput)
+    setImageUrl(userInput);
+    document.getElementById('App').style.minHeight = '1000px';
     console.log('click');
     clf.models
       .predict(
@@ -70,29 +72,33 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Particles className= 'particles' />
-      <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange}/>
-      <Logo />
-      { route === 'home'
-        ? <div>
-            <Rank />
-            <ImageLinkForm 
-              onInputChange={onInputChange}
-              onButtonSubmit={onButtonSubmit} 
-            />
-            <FaceRecognition 
-            box={box}
-            imageUrl={imageUrl} 
-            />
-          </div> 
-        : 
-        (
-          route === 'signin' 
-          ? <SignIn onRouteChange={onRouteChange} />
-          : <Register onRouteChange={onRouteChange} />
-        )
-      }
+    <div className='content-wrapper'>
+      <div id="App" className="App">
+        <Particles className= 'particles' />
+        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange}/>
+        <Logo />
+        { route === 'home'
+          ? <div>
+              <Rank />
+              <ImageLinkForm 
+                onInputChange={onInputChange}
+                onButtonSubmit={onButtonSubmit} 
+              />
+              <FaceRecognition 
+              box={box}
+              imageUrl={imageUrl} 
+              />
+            </div> 
+          : 
+          (
+            route === 'signin' 
+            ? <SignIn onRouteChange={onRouteChange} />
+            : <Register onRouteChange={onRouteChange} />
+          )
+        }
+        
+      </div>
+      <Footer />
     </div>
   );
 }
