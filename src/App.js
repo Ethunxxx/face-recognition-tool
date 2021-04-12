@@ -55,7 +55,7 @@ function App() {
     clf.models
       .predict(
         Clarifai.FACE_DETECT_MODEL, 
-        imageUrl)
+        userInput)
       .then(response => displayFaceBox(calculateFaceLocation(response)))
       .catch(err => console.log('There was an error in the Clarifai request.', err)) 
   }
