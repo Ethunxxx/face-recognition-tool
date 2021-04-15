@@ -1,6 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const Register = ({ onRouteChange }) => {
+
+const Register = ({ onRouteChange, loadUser }) => {
+    const [registrationName, setRegistrationName] = useState('');
+    const [registrationEmail, setRegistrationEmail] = useState('');    
+    const [registrationPassword, setRegistrationPassword] = useState('');
+    
+    const onNameChange = (event) => {
+        setRegistrationName(event.target.value);
+    }
+    const onEmailChange = (event) => {
+        setRegistrationEmail(event.target.value);
+    }
+    const onPasswordChange = (event) => {
+        setRegistrationPassword(event.target.value);
+    }
+
+    const onSubmitSignIn = (event) => {
+        fetch('http://localhost:3000/register', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: registrationName,
+                email: registrationEmail,
+                password: registrationPassword
+            })
+        })
+        .then(response => response.json())
+        .then(user => {
+            if (user)
+            {
+                loadUser(user)
+                onRouteChange('home')
+            }
+        })
+    }
+    
+    
     return (
         <article className="gradient ba mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
             <main className="pa4 black-80">
@@ -8,21 +44,42 @@ const Register = ({ onRouteChange }) => {
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                     <legend className="f3 fw6 ph0 mh0 tr center">Register</legend>
                     <div className="mt3">
-                        <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
-                        <input className="pa2 input-reset ba bg-transparent hover-bg-light-gray hover-black w-100" type="text" name="name"  id="name" />
+                        <label 
+                            className="db fw6 lh-copy f6" 
+                            htmlFor="name">Name
+                        </label>
+                        <input 
+                            className="pa2 input-reset ba bg-transparent hover-bg-light-gray hover-black w-100" 
+                            type="text" 
+                            name="name"  
+                            id="name" 
+                            onChange={onNameChange}
+                        />
                     </div>
                     <div className="mt3">
                         <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-                        <input className="pa2 input-reset ba bg-transparent hover-bg-light-gray hover-black w-100" type="email" name="email-address"  id="email-address" />
+                        <input 
+                            className="pa2 input-reset ba bg-transparent hover-bg-light-gray hover-black w-100" 
+                            type="email" 
+                            name="email-address"  
+                            id="email-address" 
+                            onChange={onEmailChange}
+                        />
                     </div>
                     <div className="mv3">
                         <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-                        <input className="b pa2 input-reset ba bg-transparent hover-bg-light-gray hover-black w-100" type="password" name="password"  id="password" />
+                        <input 
+                            className="b pa2 input-reset ba bg-transparent hover-bg-light-gray hover-black w-100" 
+                            type="password" 
+                            name="password"  
+                            id="password"
+                            onChange={onPasswordChange}
+                        />
                     </div>
                     </fieldset>
                     <div className="">
                     <input 
-                        onClick={() => onRouteChange('home')}
+                        onClick={onSubmitSignIn}
                         className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
                         type="submit" 
                         value="Register" 
