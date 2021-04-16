@@ -8,12 +8,20 @@ import Register from './components/register/Register.js';
 import Logo from './components/logo/Logo.js';
 import ImageLinkForm from './components/imageLinkForm/ImageLinkForm.js';
 import Rank from './components/rank/Rank.js';
-import Clarifai from 'clarifai';
 import { useEffect, useState } from 'react';
 
-const clf = new Clarifai.App({
- apiKey: '83dc1c94796a4088ba4b8c132056f364'
-});
+
+
+
+const defaultUser = {
+  id: '',
+  name: '',
+  email: '',
+  entries: 0,
+  joined: ''
+}
+
+const server_url = 'https://rocky-basin-66122.herokuapp.com/'
 
 
 function App() {
@@ -44,7 +52,7 @@ function App() {
 
 
   useEffect( () => {
-    fetch('http://localhost:3000')
+    fetch(`${server_url}`)
     .then(response => response.json())
     .then(data => console.log(data))
   })
@@ -78,14 +86,17 @@ function App() {
   const onButtonSubmit = () => {
     setImageUrl(userInput);
     document.getElementById('App').style.minHeight = '1000px';
-    console.log('click');
-    clf.models
-      .predict(
-        Clarifai.FACE_DETECT_MODEL, 
-        userInput)
+    fetch(`${server_url}/imageurl`,{
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          input: userInput
+      })
+    })
+      .then(response => response.json())
       .then(response => {
         if(response) {
-          fetch('http://localhost:3000/image',{
+          fetch(`${server_url}/image`,{
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -96,6 +107,7 @@ function App() {
           .then(count => {
             setUser({...user, entries: count })
           } )
+          .catch(console.log)
         }
         displayFaceBox(calculateFaceLocation(response))
       })
@@ -107,6 +119,9 @@ function App() {
   const onRouteChange = (route) => {
     if (route === 'signout'){
       setIsSignedIn(false);
+      setUser(defaultUser);
+      setImageUrl('');
+      setBox({});
     } else if (route==='home') {
       setIsSignedIn(true)
     }

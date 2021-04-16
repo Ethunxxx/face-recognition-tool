@@ -5,6 +5,7 @@ const Register = ({ onRouteChange, loadUser }) => {
     const [registrationName, setRegistrationName] = useState('');
     const [registrationEmail, setRegistrationEmail] = useState('');    
     const [registrationPassword, setRegistrationPassword] = useState('');
+
     
     const onNameChange = (event) => {
         setRegistrationName(event.target.value);
@@ -28,10 +29,12 @@ const Register = ({ onRouteChange, loadUser }) => {
         })
         .then(response => response.json())
         .then(user => {
-            if (user)
+            if (user.id)
             {
                 loadUser(user)
                 onRouteChange('home')
+            } else {
+                alert(`Incorrect form submission. Please provide: \n\n - User name \n - Valid email address \n - Password of at least 3 characters`)
             }
         })
     }
