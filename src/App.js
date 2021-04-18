@@ -21,7 +21,7 @@ const defaultUser = {
   joined: ''
 }
 
-const server_url = 'https://rocky-basin-66122.herokuapp.com/'
+export const serverUrl = 'https://rocky-basin-66122.herokuapp.com'
 
 
 function App() {
@@ -52,7 +52,7 @@ function App() {
 
 
   useEffect( () => {
-    fetch(`${server_url}`)
+    fetch(`${serverUrl}`)
     .then(response => response.json())
     .then(data => console.log(data))
   })
@@ -86,7 +86,7 @@ function App() {
   const onButtonSubmit = () => {
     setImageUrl(userInput);
     document.getElementById('App').style.minHeight = '1000px';
-    fetch(`${server_url}/imageurl`,{
+    fetch(`${serverUrl}/imageurl`,{
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -96,7 +96,7 @@ function App() {
       .then(response => response.json())
       .then(response => {
         if(response) {
-          fetch(`${server_url}/image`,{
+          fetch(`${serverUrl}/image`,{
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

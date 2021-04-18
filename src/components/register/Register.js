@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { serverUrl } from '../../App.js'
 
 
 const Register = ({ onRouteChange, loadUser }) => {
@@ -18,7 +19,8 @@ const Register = ({ onRouteChange, loadUser }) => {
     }
 
     const onSubmitSignIn = (event) => {
-        fetch('http://localhost:3000/register', {
+        console.log('This is the server URL:', serverUrl)
+        fetch(`${serverUrl}/register`, {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
