@@ -9,8 +9,6 @@ import Logo from './components/logo/Logo.js';
 import ImageLinkForm from './components/imageLinkForm/ImageLinkForm.js';
 import Rank from './components/rank/Rank.js';
 import { useEffect, useState } from 'react';
-import cors from 'cors';
-
 
 
 const defaultUser = {
