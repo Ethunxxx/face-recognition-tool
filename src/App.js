@@ -25,7 +25,7 @@ export const serverUrl = 'https://rocky-basin-66122.herokuapp.com'
 function App() {
   const [userInput, setUserInput] = useState('')
   const [imageUrl, setImageUrl] = useState('')
-  const [box, setBox] = useState({})
+  const [boxes, setBoxes] = useState({})
   const [route, setRoute] = useState('signin')
   const [isSignedIn, setIsSignedIn] = useState(false)
   const [user, setUser] = useState({
@@ -49,32 +49,44 @@ function App() {
   }
 
 
-  useEffect( () => {
+  useEffect(() => {
     fetch(`${serverUrl}`)
-    .then(response => response.json())
-    .then(data => console.log(data))
+      .then(response => response.json())
+      .then(data => console.log(data))
   })
 
-  const calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+  const calculateFaceLocations = (data) => {
     const image = document.getElementById('inputImage')
     const width = Number(image.width)
     const height = Number(image.height)
-    console.log(width, height)
+    // console.log(width, height)
 
+    const leftCols = []
+    const topRows = []
+    const rightCols = []
+    const bottomRows = []
+
+
+    for (let region of data.outputs[0].data.regions) {
+      let clarifaiFace = region.region_info.bounding_box
+      leftCols.push(clarifaiFace.left_col)
+      topRows.push(clarifaiFace.top_row)
+      rightCols.push(clarifaiFace.right_col)
+      bottomRows.push(clarifaiFace.bottom_row)
+    }
 
     return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height),
+      leftCols: leftCols.map(x => x * width),
+      topRows: topRows.map(x => x * height),
+      rightCols: rightCols.map(x => width - x * width),
+      bottomRows: bottomRows.map(x=> height - x*height)
     }
   }
 
 
-  const displayFaceBox = (box) => {
-    console.log('setBox:', box)
-    setBox(box)
+  const displayFaceBoxes = (boxes) => {
+    console.log('setBoxes:', boxes)
+    setBoxes(boxes)
   }
 
   const onInputChange = (event) => {
@@ -84,43 +96,43 @@ function App() {
   const onButtonSubmit = () => {
     setImageUrl(userInput);
     document.getElementById('App').style.minHeight = '1000px';
-    fetch(`${serverUrl}/imageurl`,{
+    fetch(`${serverUrl}/imageurl`, {
       method: 'post',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-          input: userInput
+        input: userInput
       })
     })
       .then(response => response.json())
       .then(response => {
-        if(response) {
-          fetch(`${serverUrl}/image`,{
+        if (response) {
+          fetch(`${serverUrl}/image`, {
             method: 'put',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                id: user.id
+              id: user.id
             })
           })
-          .then(response => response.json())
-          .then(count => {
-            setUser({...user, entries: count })
-          } )
-          .catch(console.log)
+            .then(response => response.json())
+            .then(count => {
+              setUser({ ...user, entries: count })
+            })
+            .catch(console.log)
         }
-        displayFaceBox(calculateFaceLocation(response))
+        displayFaceBoxes(calculateFaceLocations(response))
       })
-      .catch(err => console.log('There was an error in the Clarifai request.', err)) 
-    
-    
+      .catch(err => console.log('There was an error in the Clarifai request.', err))
+
+
   }
 
   const onRouteChange = (route) => {
-    if (route === 'signout'){
+    if (route === 'signout') {
       setIsSignedIn(false);
       setUser(defaultUser);
       setImageUrl('');
-      setBox({});
-    } else if (route==='home') {
+      setBoxes({});
+    } else if (route === 'home') {
       setIsSignedIn(true)
     }
     setRoute(route)
@@ -131,38 +143,38 @@ function App() {
   return (
     <div className='content-wrapper'>
       <div id="App" className="App">
-        <Particles className= 'particles' />
-        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange}/>
+        <Particles className='particles' />
+        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
         <Logo />
-        { route === 'home'
+        {route === 'home'
           ? <div>
-              <Rank 
-                userName={user.name}
-                userEntries={user.entries}
-              />
-              <ImageLinkForm 
-                onInputChange={onInputChange}
-                onButtonSubmit={onButtonSubmit} 
-              />
-              <FaceRecognition 
-              box={box}
-              imageUrl={imageUrl} 
-              />
-            </div> 
-          : 
+            <Rank
+              userName={user.name}
+              userEntries={user.entries}
+            />
+            <ImageLinkForm
+              onInputChange={onInputChange}
+              onButtonSubmit={onButtonSubmit}
+            />
+            <FaceRecognition
+              boxes={boxes}
+              imageUrl={imageUrl}
+            />
+          </div>
+          :
           (
-            route === 'signin' 
-            ? <SignIn 
-                onRouteChange={onRouteChange} 
-                loadUser={loadUser}  
+            route === 'signin'
+              ? <SignIn
+                onRouteChange={onRouteChange}
+                loadUser={loadUser}
               />
-            : <Register 
-                onRouteChange={onRouteChange} 
+              : <Register
+                onRouteChange={onRouteChange}
                 loadUser={loadUser}
               />
           )
         }
-        
+
       </div>
       <Footer />
     </div>
