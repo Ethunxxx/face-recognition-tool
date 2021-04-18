@@ -1,5 +1,5 @@
 import './App.css';
-import Particles from 'react-particles-js'
+import Particles from 'react-particles-js';
 import Navigation from './components/navigation/Navigation.js';
 import FaceRecognition from './components/faceRecognition/FaceRecognition.js';
 import SignIn from './components/signIn/SignIn.js';
@@ -9,10 +9,7 @@ import Logo from './components/logo/Logo.js';
 import ImageLinkForm from './components/imageLinkForm/ImageLinkForm.js';
 import Rank from './components/rank/Rank.js';
 import { useEffect, useState } from 'react';
-import cors from 'cors'
-
-
-app.use(cors());
+import cors from 'cors';
 
 
 
