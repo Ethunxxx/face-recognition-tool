@@ -101,6 +101,11 @@ function App() {
   }
 
   const onButtonSubmit = () => {
+    if (!userInput) {
+      console.log('Please submit an image URL.')
+      return 0
+    }
+
     setImageUrl(userInput);
 
     document.getElementById('App').style.minHeight = `${1000}px`;
@@ -130,8 +135,6 @@ function App() {
         displayFaceBoxes(calculateFaceLocations(response))
       })
       .catch(err => console.log('There was an error in the Clarifai request.', err))
-
-
   }
 
   const onRouteChange = (route) => {
