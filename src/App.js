@@ -10,6 +10,15 @@ import ImageLinkForm from './components/imageLinkForm/ImageLinkForm.js';
 import Rank from './components/rank/Rank.js';
 import { useEffect, useState } from 'react';
 
+export let serverUrl = 'https://rocky-basin-66122.herokuapp.com'
+
+if (Boolean(process.env.REACT_APP_IS_MY_MACHINE)) {
+  serverUrl = 'http://localhost:3001'
+}
+
+console.log(`Server is running at ${serverUrl}.`)
+
+
 
 const defaultUser = {
   id: '',
@@ -19,7 +28,7 @@ const defaultUser = {
   joined: ''
 }
 
-export const serverUrl = 'https://rocky-basin-66122.herokuapp.com'
+
 
 
 function App() {
