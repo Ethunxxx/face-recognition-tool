@@ -1,6 +1,6 @@
 {
-  "short_name": "Face recognition",
-  "name": "Create React App Sample",
+  "short_name": "Face recognition tool",
+  "name": "A simple web tool to detect faces in images via AI. This was part of Udemy's course on web development.",
   "icons": [
     {
       "src": "favicon.ico",
