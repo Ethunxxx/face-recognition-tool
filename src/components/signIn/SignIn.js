@@ -16,7 +16,7 @@ const SignIn = ({ onRouteChange, loadUser }) => {
     }
     const onEnterPress = (event) => {
         if (event.code === "Enter") {
-            console.log('submitted via enter')
+            // console.log('submitted via enter')
 
             onSubmitSignIn();
         }

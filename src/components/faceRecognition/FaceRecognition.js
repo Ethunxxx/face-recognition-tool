@@ -5,7 +5,7 @@ const FaceRecognition = ({ imageUrl, boxes }) => {
 
     const boxElements = []
 
-    console.log(boxes)
+    // console.log(boxes)
 
     if (boxes.leftCols) {
         for (let idx = 0; idx < boxes.leftCols.length; idx++) {

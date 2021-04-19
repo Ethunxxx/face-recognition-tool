@@ -79,13 +79,13 @@ function App() {
       leftCols: leftCols.map(x => x * width),
       topRows: topRows.map(x => x * height),
       rightCols: rightCols.map(x => width - x * width),
-      bottomRows: bottomRows.map(x=> height - x*height)
+      bottomRows: bottomRows.map(x => height - x * height)
     }
   }
 
 
   const displayFaceBoxes = (boxes) => {
-    console.log('setBoxes:', boxes)
+    // console.log('setBoxes:', boxes)
     setBoxes(boxes)
   }
 
