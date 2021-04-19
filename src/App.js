@@ -38,6 +38,7 @@ function App() {
 
 
 
+
   const loadUser = (data) => {
     setUser({
       id: data.id,
@@ -93,9 +94,16 @@ function App() {
     setUserInput(event.target.value)
   }
 
+  const onButtonClear = (event) => {
+    setUserInput('')
+    setImageUrl('')
+    document.getElementById('App').style.minHeight = '0px';
+  }
+
   const onButtonSubmit = () => {
     setImageUrl(userInput);
-    document.getElementById('App').style.minHeight = '1000px';
+
+    document.getElementById('App').style.minHeight = `${1000}px`;
     fetch(`${serverUrl}/imageurl`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -155,6 +163,8 @@ function App() {
             <ImageLinkForm
               onInputChange={onInputChange}
               onButtonSubmit={onButtonSubmit}
+              onButtonClear={onButtonClear}
+              userInput={userInput}
             />
             <FaceRecognition
               boxes={boxes}
